@@ -90,6 +90,17 @@ The main classes of the `IcpKit` Library are the following :
 
 The [ICPRequestClient](Sources/IcpKit/ICPRequest/ICPRequestClient.swift) class is the communication workhorse of the library allowing to make method calls to any canister.
 
+### Local replica / Pocket-IC
+
+When using a local replica, you need to point the client to the local host and fetch the root key once so that certificate verification can succeed.
+
+```swift
+let local = ICPNetwork.local(baseURL: URL(string: "http://127.0.0.1:4943")!, verifyCertificates: true)
+let client = ICPRequestClient(network: local)
+let rootKey = try await client.fetchRootKey()
+let verifiedClient = client.withRootKey(rootKey)
+```
+
 The [Ledger Canister](Sources/IcpKit/Canisters/ICPLedgerCanister.swift) is provided as a sample implementation which also allows for easy creation of ICP Wallet apps.
 
 ### `CodeGenerator` Command Line Tool Overview
